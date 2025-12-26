@@ -1,0 +1,23 @@
+function DCM = configureDCM(TimeSeries, ROI_name, TR, TE, n)
+    v = size(TimeSeries, 1);
+    DCM.v = v;
+    DCM.n = n;
+    DCM.Y.dt = TR;
+    DCM.Y.Q = spm_Ce(ones(1, n) * v);
+    DCM.Y.y = TimeSeries;
+    DCM.Y.name = ROI_name;
+    DCM.U.u = zeros(v, 1);
+    DCM.U.name = {'null'};
+    DCM.a = ones(n, n); % Full connectivity
+    DCM.b = zeros(n, n, 0);
+    DCM.c = zeros(n, 0);
+    DCM.d = zeros(n, n, 0);
+    DCM.TE = TE;
+    DCM.delays = repmat(TR, n, 1);
+    DCM.model = 'spm_csd';
+    DCM.options.nonlinear  = 0;
+    DCM.options.two_state  = 0;
+    DCM.options.stochastic = 0;
+    DCM.options.analysis   = 'CSD';
+    DCM.options.induced   = 1;
+end
