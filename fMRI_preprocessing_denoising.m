@@ -39,7 +39,8 @@ disp([num2str(size(FUNCTIONAL_FILE,2)),' sessions']);
 % Prepares batch structure
 clear batch;
 batch.filename=fullfile(Datadir,'conn_rsfMRI.mat');            % New conn_*.mat experiment name
-batch.parallel.N=NSUBJECTS;                             % One process per subject (uses default Grid-settings profile)
+% batch.parallel.N=NSUBJECTS;                             % One process per subject (uses default Grid-settings profile)
+batch.parallel.N=4;  
 
 % SETUP & PREPROCESSING step (using default values for most parameters, see help conn_batch to define non-default values)
 batch.Setup.isnew=1;
@@ -70,12 +71,12 @@ batch.Setup.rois.mask = 1; % Mask with gray matter voxels (set to 0 if not wante
 batch.Setup.preprocessing.steps='default_mni';  % I manually created this
 batch.Setup.preprocessing.sliceorder='interleaved (Siemens)';
 batch.Setup.done=1;
-batch.Setup.overwrite='No';                            
+batch.Setup.overwrite='Yes';                            
 
 % DENOISING step
-batch.Denoising.filter=[0.008, inf];  % Frequency filter (band-pass values in Hz)
+batch.Denoising.filter=[0.008, inf];  % Frequency filter (High-pass values in Hz)
 batch.Denoising.done=1;
-batch.Denoising.overwrite='No'; %(for done=1) 1/0: overwrites target files if they exist [1]
+batch.Denoising.overwrite='Yes'; %(for done=1) 1/0: overwrites target files if they exist [1]
 
 % Run all analyses
 conn_batch(batch);

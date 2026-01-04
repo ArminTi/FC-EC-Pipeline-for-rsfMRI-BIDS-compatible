@@ -1,4 +1,9 @@
-function Specify_fit_spDCM(Datadir, TR, TE)
+function Specify_fit_rDCM(Datadir, TR)
+
+addpath C:\Users\ASUS\Desktop\Apps\rDCM-main\code\
+addpath C:\Users\ASUS\Desktop\Apps\rDCM-main\misc\
+
+setenv('MW_MINGW64_LOC','D:\Package\MinGW_w64')
 
 files = dir(fullfile(Datadir,'conn_rsfMRI','results','preprocessing','ROI_Subject*_Condition001.mat'));
 Network = load(fullfile(Datadir,'conn_rsfMRI','results','firstlevel','RRC','resultsROI_Condition001.mat'));
@@ -29,30 +34,37 @@ for s = 1:numel(subjects)
 end
 
 subjects = fieldnames(TS_ROI);
-DCM_all = struct();
+rDCM_all = struct();
 
 for s = 1:numel(subjects)
     subj = subjects{s};
     roiData  = TS_ROI.(subj).data;
     roiNames = TS_ROI.(subj).names;
-    nROI = numel(roiData);
+    
 
-    Y = cellfun(@(x)x(:),roiData,'UniformOutput',false);
-    Y = cell2mat(Y');
-    DCM = configureDCM(Y,roiNames,TR,TE,nROI);
-    DCM_all.(subj) = spm_dcm_fmri_csd(DCM);
+    y = cellfun(@(x)x(:),roiData,'UniformOutput',false);
+    y = cell2mat(y');
+
+    % Configure setup for rDCM
+    Y = struct();
+    Y.y = y;
+    Y.dt = TR;
+    Y.name = roiNames;
+
+    rDCM = tapas_rdcm_model_specification(Y, [], []); % model spec for rest
+    rDCM_fit = tapas_rdcm_estimate(rDCM, 'r', [], 1); % estimate model
+    rDCM_all.(subj) = tapas_rdcm_to_spm_struct(rDCM_fit); % transfer to SPM format
 end
 
-save(fullfile(Datadir,'DCM_all.mat'),'DCM_all','-v7.3')
+save(fullfile(Datadir,'rDCM_all.mat'),'rDCM_all','-v7.3')
 
-GCM = struct2cell(DCM_all);
-spm_dcm_fmri_check(GCM)
+
 % --------------------------------
 % Plot fitted DCM for each sub and comparing with FC
 
 a = load(fullfile(Datadir,'conn_rsfMRI','results','firstlevel','RRC','resultsROI_Condition001.mat'));
 
-subjects = fieldnames(DCM_all);
+subjects = fieldnames(rDCM_all);
 nSub = numel(subjects);
 
 for s = 1:nSub
@@ -67,9 +79,9 @@ for s = 1:nSub
     FCnames = vertcat(FCnames{:});
     
     % -------- DCM effective connectivity --------
-    DCMmat = DCM_all.(subj).Ep.A;
+    DCMmat = rDCM_all.(subj).Ep.A;
     
-    DCMnames_raw = DCM_all.(subj).Y.name(:);
+    DCMnames_raw = rDCM_all.(subj).Y.name(:);
     DCMnames = cellfun(@(x) regexp(x,'networks\.([^.]+\.[^ ]+)','tokens','once'), ...
                        DCMnames_raw,'UniformOutput',false);
     DCMnames = vertcat(DCMnames{:});
@@ -82,7 +94,7 @@ for s = 1:nSub
     
     subplot(1,2,2)
     PlotConnectMatrix(DCMmat,DCMnames)
-    title([subj '  |  Effective Connectivity (spDCM)'],'FontSize',18)
+    title([subj '  |  Effective Connectivity (rDCM)'],'FontSize',18)
     
 end
 

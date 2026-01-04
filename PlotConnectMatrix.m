@@ -13,18 +13,43 @@ set(gca, 'FontSize', 12)
 
 
 % Colormap 1 (hot)
-T = [0.2 0 0.4   
+%T = [0.2 0 0.4   
+%    1 1 1]; 
+%x = [0 1];
+%x = x(end:-1:1);
+%c1 = interp1(x,T,linspace(0,1,64));
+%
+% Colormap 2 (cold)
+%T = [1 1 1             
+%    0.1 0.1 0.1]; 
+%x = [0 1];
+%x = x(end:-1:1);
+%c2 = interp1(x,T,linspace(0,1,64));
+
+%T = [0.9 0.1 0.1   
+%    1 1 1]; 
+%x = [0 1];
+%x = x(end:-1:1);
+%c1 = interp1(x,T,linspace(0,1,64));
+%
+%T = [1 1 1             
+%    0.1 0.3 0.9]; 
+%x = [0 1];
+%x = x(end:-1:1);
+%c2 = interp1(x,T,linspace(0,1,64));
+
+T = [0.9 0.4 0.2   
     1 1 1]; 
 x = [0 1];
 x = x(end:-1:1);
 c1 = interp1(x,T,linspace(0,1,64));
 
-% Colormap 2 (cold)
 T = [1 1 1             
-    0.1 0.1 0.1]; 
+    0.0 0.4 0.4]; 
 x = [0 1];
 x = x(end:-1:1);
 c2 = interp1(x,T,linspace(0,1,64));
+
 
 % Combine and add white
 c = [c2;c1];
@@ -32,6 +57,7 @@ c(64:65,:) = 1;
 
 gca2 = colorbar; set(gca2, 'FontSize', 20)
 colormap(c);
+%colormap(magma());
 xlabel('From', 'FontSize', 16)
 ylabel('To',  'FontSize', 16)
 set(get(gca,'YLabel'),'Rotation',0)
@@ -55,7 +81,7 @@ for i = 1:nP
                 else
                     col = [1 1 1];
                 end
-            text(j-0.25,i, num2str(round(matrix(i,j),2)), 'fontweight','bold', 'Color', col, 'FontSize', 16)
+            text(j-0.25,i, num2str(round(matrix(i,j),2)), 'fontweight','bold', 'Color', col, 'FontSize', 12)
             end
         end
     end
@@ -63,4 +89,4 @@ end
 
 % set(gcf, 'position', [500 0 900 700])
 
-set(gcf, 'Position', [200 100 1600 700])
+set(gcf, 'Position', [200 0 1450 500]) % [left bottom width height]
