@@ -43,13 +43,12 @@ If you plan to use hierarchical PEB for group-level DCM, you can specify the SC 
 
 ![DCM_rDCM](https://github.com/user-attachments/assets/898cc9ee-d07d-4f54-a8c1-da46c9a2fe92)
 
-![PpSdcm95](https://github.com/user-attachments/assets/41d330b0-f2fc-4583-bf54-e9bf67da3d6e)
-
 
 ## Plotting Examples Python
 
 `ECEC_FC_Plot.ipynb`
 
 <img width="870" height="470" alt="scatter" src="https://github.com/user-attachments/assets/c4d05a07-354f-499a-898b-d8991dc1969b" />
+
 
 
