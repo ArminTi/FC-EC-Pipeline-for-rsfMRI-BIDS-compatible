@@ -51,6 +51,3 @@ If you plan to use hierarchical PEB for group-level DCM, you can specify the SC 
 <img width="870" height="470" alt="scatter" src="https://github.com/user-attachments/assets/c4d05a07-354f-499a-898b-d8991dc1969b" />
 
 
-![Uploading download.png…]()
-![Uploading download.png…]()
-
