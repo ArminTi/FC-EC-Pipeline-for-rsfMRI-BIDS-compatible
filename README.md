@@ -39,8 +39,7 @@ If you plan to use hierarchical PEB for group-level DCM, you can specify the SC 
 
 ## Plotting Examples
 
-  ```matlab
-  EC_Plots(Datadir, name);
+  `EC_Plots(Datadir, name);`
 
 ![Uploading DCM_rDCM.jpg…]()
 
