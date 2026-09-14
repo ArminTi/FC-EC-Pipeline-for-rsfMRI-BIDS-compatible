@@ -1,6 +1,6 @@
 # fMRI Resting State Analysis Pipeline
 
-This is a MATLAB-based master pipeline for processing and analyzing resting state fMRI data. It integrates several powerful toolboxes, including SPM12, CONN, TAPAS to perform preprocessing, functional connectivity (FC) analysis, dynamic causal modeling (DCM), and group-level parametric empirical Bayes (PEB) analyses.
+This is a MATLAB-based master pipeline for processing and analyzing resting state fMRI data. It integrates SPM12, CONN, TAPAS to perform preprocessing, functional connectivity (FC) analysis, dynamic causal modeling (DCM), and group-level parametric empirical Bayes (PEB) analyses.
 
 ## Requirements
 
